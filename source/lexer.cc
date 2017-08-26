@@ -28,7 +28,13 @@ namespace lynx {
         {"}", Token::Type::R_BRACE},
         {"[", Token::Type::L_BRACKET},
         {"]", Token::Type::R_BRACKET},
+        {":", Token::Type::COLON},
+        {";", Token::Type::SEMICOLON},
         {"=", Token::Type::EQUALS},
+        {"+", Token::Type::PLUS},
+        {"-", Token::Type::MINUS},
+        {"*", Token::Type::STAR},
+        {"/", Token::Type::SLASH},
     };
 
     Lexer::Lexer(std::string&& code)
@@ -78,6 +84,10 @@ namespace lynx {
             return _tokens[_current_token + depth];
         }
         return _tokens.back();
+    }
+
+    bool Lexer::is_at_end() const {
+        return peek_token(0).type == Token::Type::END_OF_FILE;
     }
 
     char Lexer::get_next_character() {

@@ -2,7 +2,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "lexer.h"
+#include "parser.h"
 
 namespace lynx {
 
@@ -38,8 +38,14 @@ int main(int argc, char** argv) {
     }
     lynx::Lexer lexer{std::move(code)};
     if(const auto errors_reported = lexer.errors_reported()) {
-        std::cout << "Reported " << errors_reported << ". Exiting...\n";
+        std::cout << "Reported " << errors_reported << " errors. Exiting...\n";
         return 2;
+    }
+    lynx::Parser parser{lexer};
+    auto statements = parser.parse();
+    if(auto errors_reported = parser.errors_reported()) {
+        std::cout << "Reported " << errors_reported << " errors. Exitting...\n";
+        return 3;
     }
     return 0;
 }

@@ -7,8 +7,14 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -DLYNX_DEBUG=1 -g")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -DNDEBUG -DLYNX_DEBUG=0 -O3")
 
 set(SOURCES
+        source/expression.h
+        source/expression.cc
         source/lexer.cc
-        source/lexer.h)
+        source/lexer.h
+        source/parser.cc
+        source/parser.h
+        source/statement.cc
+        source/statement.h)
 add_library(lynx_core STATIC ${SOURCES})
 target_include_directories(lynx_core PUBLIC source)
 
@@ -20,7 +26,8 @@ enable_testing()
 find_package(GTest)
 set(TESTS
         test/lexer_tests.cc
-        test/main.cc)
+        test/main.cc
+        test/parser_tests.cc)
 add_executable(lynx_tests ${TESTS})
 target_include_directories(lynx_tests PRIVATE source ${GTEST_INCLUDE_DIRS})
 target_link_libraries(lynx_tests lynx_core ${GTEST_BOTH_LIBRARIES})

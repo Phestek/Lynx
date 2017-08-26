@@ -18,6 +18,8 @@ namespace lynx {
         Token next_token() noexcept;
         Token peek_token(int depth = 1) const noexcept;
 
+        bool is_at_end() const;
+
     private:
         char get_next_character();
 

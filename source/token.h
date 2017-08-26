@@ -13,6 +13,11 @@ namespace lynx {
             FUNC,
             LET,
             VAR,
+            IF,
+            ELSE,
+            FOR,
+            WHILE,
+            DO,
             // Operators.
             L_PAREN,
             R_PAREN,
@@ -20,7 +25,13 @@ namespace lynx {
             R_BRACE,
             L_BRACKET,
             R_BRACKET,
+            COLON,
+            SEMICOLON,
             EQUALS,
+            PLUS,
+            MINUS,
+            STAR,
+            SLASH,
             END_OF_FILE
         };
         Type        type = Token::Type::UNDEFINED;

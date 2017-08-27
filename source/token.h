@@ -36,7 +36,9 @@ namespace lynx {
         };
         Type        type = Token::Type::UNDEFINED;
         std::string value;
+        std::string filename;
         std::size_t line;
+        std::size_t column;
     };
 
 }

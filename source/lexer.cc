@@ -37,8 +37,8 @@ namespace lynx {
         {"/", Token::Type::SLASH},
     };
 
-    Lexer::Lexer(std::string&& code)
-            : _code{std::move(code)} {
+    Lexer::Lexer(const std::string& filename, std::string&& code)
+            : _filename{filename}, _code{std::move(code)} {
         while(_code_pos < _code.length()) {
             try {
                 const char c = _code[_code_pos];
@@ -64,7 +64,7 @@ namespace lynx {
                 continue;
             }
         }
-        _tokens.push_back(Token{Token::Type::END_OF_FILE, "", _line});
+        _tokens.push_back(Token{Token::Type::END_OF_FILE, "", _filename, _line, _code_pos - _last_newline});
         _tokens.shrink_to_fit();
     }
 
@@ -103,6 +103,7 @@ namespace lynx {
     void Lexer::handle_whitespace(const char c) {
         if(c == '\n') {
             ++_line;
+            _last_newline = _code_pos + 1;
         }
         ++_code_pos;
     }
@@ -123,9 +124,9 @@ namespace lynx {
             c = get_next_character();
         }
         if(is_float) {
-            _tokens.push_back(Token{Token::Type::FLOAT, number, _line});
+            _tokens.push_back(Token{Token::Type::FLOAT, number, _filename, _line, _code_pos - _last_newline});
         } else {
-            _tokens.push_back(Token{Token::Type::INTEGER, number, _line});
+            _tokens.push_back(Token{Token::Type::INTEGER, number, _filename, _line, _code_pos - _last_newline});
         }
     }
 
@@ -136,9 +137,9 @@ namespace lynx {
             c = get_next_character();
         }
         if(auto keyword = is_keyword(identifier); keyword != nullptr) {
-            _tokens.push_back(Token{*keyword, "", _line});
+            _tokens.push_back(Token{*keyword, "", _filename, _line, _code_pos - _last_newline});
         } else {
-            _tokens.push_back(Token{Token::Type::IDENTIFIER, identifier, _line});
+            _tokens.push_back(Token{Token::Type::IDENTIFIER, identifier, _filename, _line, _code_pos - _last_newline});
         }
     }
 
@@ -157,7 +158,7 @@ namespace lynx {
         while(length > 0) {
             if(auto result = is_valid_opearator(operator_); result != nullptr) {
                 _code_pos += length;
-                _tokens.push_back(Token{*result, "", _line});
+                _tokens.push_back(Token{*result, "", _filename, _line, _code_pos - _last_newline});
                 return;
             }
             operator_.pop_back();

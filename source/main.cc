@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
     if(code == "") {
         return 1;
     }
-    lynx::Lexer lexer{std::move(code)};
+    lynx::Lexer lexer{argv[1], std::move(code)};
     if(const auto errors_reported = lexer.errors_reported()) {
         std::cout << "Reported " << errors_reported << " errors. Exiting...\n";
         return 2;

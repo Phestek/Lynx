@@ -37,7 +37,8 @@ namespace lynx {
             try {
                 statements.push_back(declaration());
             } catch(const Parse_Error& e) {
-                std::cerr << "Error: <filename>:" << e.token().line << ":<column>: " << e.what() << ".\n";
+                std::cerr << "Error: " << e.token().filename << ':' << e.token().line << ':' << e.token().column << ": "
+                        << e.what() << ".\n";
                 ++_errors_reported;
                 synchronize();
             }
@@ -129,13 +130,14 @@ namespace lynx {
     }
 
     Expr_Ptr Parser::primary() {
+        auto token = _lexer.peek_token(0);
         if(match_token(Token::Type::INTEGER)) {
-            return std::make_unique<Integer>(_lexer.peek_token(-1).value);
+            return std::make_unique<Integer>(token.value);
         }
         if(match_token(Token::Type::FLOAT)) {
-            return std::make_unique<Float>(_lexer.peek_token(-1).value);
+            return std::make_unique<Float>(token.value);
         }
-        throw Parse_Error{"Not a primary expression", _lexer.peek_token(0)};
+        throw Parse_Error{"Not a primary expression", token};
     }
 
     Block Parser::block() {

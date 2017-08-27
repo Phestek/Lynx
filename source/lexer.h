@@ -11,7 +11,7 @@ namespace lynx {
 
     class Lexer {
     public:
-        Lexer(std::string&& code);
+        Lexer(const std::string& filename, std::string&& code);
 
         std::size_t errors_reported() const noexcept;
 
@@ -38,8 +38,9 @@ namespace lynx {
 
         std::string _code;
         std::size_t _code_pos{};
+        std::string _filename;
         std::size_t _line{1};
-        std::size_t _column{1};
+        std::size_t _last_newline{1};
         std::size_t _errors_reported{};
 
         std::vector<Token> _tokens;

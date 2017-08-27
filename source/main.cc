@@ -49,6 +49,7 @@ int main(int argc, char** argv) {
         return 3;
     }
     lynx::Interpreter interpreter{statements};
+    interpreter.interpret();
     return 0;
 }
 

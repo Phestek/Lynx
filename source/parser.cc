@@ -80,7 +80,9 @@ namespace lynx {
     }
 
     Statement_Ptr Parser::statement() {
-        return std::make_unique<Expression>(expression());
+        auto expr = std::make_unique<Expression>(expression());
+        consume(Token::Type::SEMICOLON, "Expected ';' after expression.");
+        return expr;
     }
 
     Expr_Ptr Parser::expression() {
@@ -128,10 +130,10 @@ namespace lynx {
 
     Expr_Ptr Parser::primary() {
         if(match_token(Token::Type::INTEGER)) {
-            return std::make_unique<Integer>(_lexer.peek_token(0).value);
+            return std::make_unique<Integer>(_lexer.peek_token(-1).value);
         }
         if(match_token(Token::Type::FLOAT)) {
-            return std::make_unique<Float>(_lexer.peek_token(0).value);
+            return std::make_unique<Float>(_lexer.peek_token(-1).value);
         }
         throw Parse_Error{"Not a primary expression", _lexer.peek_token(0)};
     }

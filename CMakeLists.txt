@@ -9,12 +9,16 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -DNDEBUG -DLYNX_DEBUG=0 -O3")
 set(SOURCES
         source/expression.h
         source/expression.cc
+        source/interpreter.cc
+        source/interpreter.h
         source/lexer.cc
         source/lexer.h
         source/parser.cc
         source/parser.h
         source/statement.cc
-        source/statement.h)
+        source/statement.h
+        source/value.cc
+        source/value.h)
 add_library(lynx_core STATIC ${SOURCES})
 target_include_directories(lynx_core PUBLIC source)
 

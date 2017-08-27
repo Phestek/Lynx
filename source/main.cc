@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 
+#include "interpreter.h"
 #include "parser.h"
 
 namespace lynx {
@@ -47,6 +48,7 @@ int main(int argc, char** argv) {
         std::cout << "Reported " << errors_reported << " errors. Exitting...\n";
         return 3;
     }
+    lynx::Interpreter interpreter{statements};
     return 0;
 }
 

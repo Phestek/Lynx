@@ -1,5 +1,7 @@
 #include "value.h"
 
+#include <stdexcept>
+
 namespace lynx {
 
     Value operator+(const Value& left, const Value& right) {
@@ -12,6 +14,7 @@ namespace lynx {
         if(left.type == Value::Type::FLOAT) {
             return Value{left.type, std::get<long double>(left.data) + std::get<long double>(right.data)};
         }
+        throw std::runtime_error{"Should never reach this point."};
     }
     
     Value operator-(const Value& left, const Value& right) {
@@ -24,6 +27,7 @@ namespace lynx {
         if(left.type == Value::Type::FLOAT) {
             return Value{left.type, std::get<long double>(left.data) - std::get<long double>(right.data)};
         }
+        throw std::runtime_error{"Should never reach this point."};
     }
     
     Value operator*(const Value& left, const Value& right) {
@@ -36,6 +40,7 @@ namespace lynx {
         if(left.type == Value::Type::FLOAT) {
             return Value{left.type, std::get<long double>(left.data) * std::get<long double>(right.data)};
         }
+        throw std::runtime_error{"Should never reach this point."};
     }
     
     Value operator/(const Value& left, const Value& right) {
@@ -48,6 +53,7 @@ namespace lynx {
         if(left.type == Value::Type::FLOAT) {
             return Value{left.type, std::get<long double>(left.data) / std::get<long double>(right.data)};
         }
+        throw std::runtime_error{"Should never reach this point."};
     }
 
 }

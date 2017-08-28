@@ -38,7 +38,7 @@ namespace lynx {
     };
 
     Lexer::Lexer(const std::string& filename, std::string&& code)
-            : _filename{filename}, _code{std::move(code)} {
+            : _code{std::move(code)}, _filename{filename} {
         while(_code_pos < _code.length()) {
             try {
                 const char c = _code[_code_pos];

@@ -52,6 +52,7 @@ namespace lynx {
             }
             // TODO: Something bad should happen.
         }
+        throw std::runtime_error{"Should never reach this point."};
     }
 
     Value Interpreter::visit_binary(const Binary_Operation& binary) {
@@ -72,6 +73,7 @@ namespace lynx {
             }
         } catch(const Incompatible_Value_Types& e) {
         }
+        throw std::runtime_error{"Should never reach this point."};
     }
 
 }

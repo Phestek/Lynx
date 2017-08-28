@@ -24,6 +24,8 @@ namespace lynx {
         char get_next_character();
 
         void handle_whitespace(const char c);
+        void handle_comment(char c);
+        void tokenize_string(char c);
         void tokenize_number(char c);
         void tokenize_identifier(char c);
         void tokenize_operator(char c);

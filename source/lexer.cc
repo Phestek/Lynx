@@ -46,6 +46,14 @@ namespace lynx {
                     handle_whitespace(c);
                     continue;
                 }
+                if(c == '#') {
+                    handle_comment(c);
+                    continue;
+                }
+                if(c == '"') {
+                    tokenize_string(c);
+                    continue;
+                }
                 if(is_digit(c)) {
                     tokenize_number(c);
                     continue;
@@ -106,6 +114,22 @@ namespace lynx {
             _last_newline = _code_pos + 1;
         }
         ++_code_pos;
+    }
+
+    void Lexer::handle_comment(char c) {
+        while(c != '\n') {
+            c = get_next_character();
+        }
+    }
+
+    void Lexer::tokenize_string(char c) {
+        std::string str{};
+        ++_code_pos;
+        while(c != '"') {
+            str += c;
+            c = get_next_character();
+        }
+        _tokens.push_back(Token{Token::Type::STRING, str, _filename, _line, _code_pos - _last_newline});
     }
 
     // FIXME: Hangs when more than one dot.

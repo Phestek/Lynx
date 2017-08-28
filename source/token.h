@@ -8,6 +8,7 @@ namespace lynx {
             UNDEFINED,
             INTEGER,
             FLOAT,
+            STRING,
             IDENTIFIER,
             // Keywords.
             FUNC,

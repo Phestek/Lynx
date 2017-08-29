@@ -24,6 +24,8 @@ namespace lynx {
             std::cout << "Expression: " << std::get<long long>(result.data) << "\n";
         } else if(result.type == Value::Type::FLOAT) {
             std::cout << "Expression: " << std::get<long double>(result.data) << "\n";
+        } else if(result.type == Value::Type::STRING) {
+            std::cout << "Expression: " << std::get<std::string>(result.data) << "\n";
         }
     }
 
@@ -35,6 +37,10 @@ namespace lynx {
 
     Value Interpreter::visit_integer(const Integer& integer) {
         return Value{Value::Type::INTEGER, std::stoll(integer.value)};
+    }
+
+    Value Interpreter::visit_string(const String& string) {
+        return Value{Value::Type::STRING, string.value};
     }
 
     Value Interpreter::visit_float(const Float& floating) {

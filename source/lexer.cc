@@ -124,11 +124,12 @@ namespace lynx {
 
     void Lexer::tokenize_string(char c) {
         std::string str{};
-        ++_code_pos;
+        c = get_next_character();
         while(c != '"') {
             str += c;
             c = get_next_character();
         }
+        get_next_character();
         _tokens.push_back(Token{Token::Type::STRING, str, _filename, _line, _code_pos - _last_newline});
     }
 

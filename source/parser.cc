@@ -137,6 +137,9 @@ namespace lynx {
         if(match_token(Token::Type::FLOAT)) {
             return std::make_unique<Float>(token.value);
         }
+        if(match_token(Token::Type::STRING)) {
+            return std::make_unique<String>(token.value);
+        }
         throw Parse_Error{"Not a primary expression", token};
     }
 

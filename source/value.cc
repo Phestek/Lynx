@@ -14,6 +14,9 @@ namespace lynx {
         if(left.type == Value::Type::FLOAT) {
             return Value{left.type, std::get<long double>(left.data) + std::get<long double>(right.data)};
         }
+        if(left.type == Value::Type::STRING) {
+            return Value{left.type, std::get<std::string>(left.data) + std::get<std::string>(right.data)};
+        }
         throw std::runtime_error{"Should never reach this point."};
     }
     
@@ -26,6 +29,9 @@ namespace lynx {
         }
         if(left.type == Value::Type::FLOAT) {
             return Value{left.type, std::get<long double>(left.data) - std::get<long double>(right.data)};
+        }
+        if(left.type == Value::Type::STRING) {
+            throw std::runtime_error{"Can't substract two strings."};
         }
         throw std::runtime_error{"Should never reach this point."};
     }
@@ -40,6 +46,9 @@ namespace lynx {
         if(left.type == Value::Type::FLOAT) {
             return Value{left.type, std::get<long double>(left.data) * std::get<long double>(right.data)};
         }
+        if(left.type == Value::Type::STRING) {
+            throw std::runtime_error{"Can't multiply two strings."};
+        }
         throw std::runtime_error{"Should never reach this point."};
     }
     
@@ -52,6 +61,9 @@ namespace lynx {
         }
         if(left.type == Value::Type::FLOAT) {
             return Value{left.type, std::get<long double>(left.data) / std::get<long double>(right.data)};
+        }
+        if(left.type == Value::Type::STRING) {
+            throw std::runtime_error{"Can't divide two strings."};
         }
         throw std::runtime_error{"Should never reach this point."};
     }

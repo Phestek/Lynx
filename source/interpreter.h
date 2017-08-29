@@ -22,6 +22,7 @@ namespace lynx {
         
         Value visit_integer(const Integer& integer) override;
         Value visit_float(const Float& floating) override;
+        Value visit_string(const String& string) override;
         Value visit_unary(const Unary_Operation& unary) override;
         Value visit_binary(const Binary_Operation& binary) override;
 

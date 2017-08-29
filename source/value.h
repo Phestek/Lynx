@@ -2,6 +2,7 @@
 #define LYNX_VALUE_H
 
 #include <exception>
+#include <string>
 #include <variant>
 
 namespace lynx {
@@ -10,9 +11,9 @@ namespace lynx {
 
     struct Value {
         enum class Type {
-            INTEGER, FLOAT
+            INTEGER, FLOAT, STRING
         };
-        using Data = std::variant<long long, long double>;
+        using Data = std::variant<long long, long double, std::string>;
 
         Value(const Type type, const Data data)
                 : type{type}, data{data} {

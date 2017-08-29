@@ -20,6 +20,15 @@ namespace lynx {
         return visitor.visit_float(*this);
     }
 
+    String::String(const std::string& value)
+            : value{value} {
+        type = Type::STRING;
+    }
+
+    Value String::accept(Expression_Visitor& visitor) {
+        return visitor.visit_string(*this);
+    }
+
     Unary_Operation::Unary_Operation(const Token::Type operator_, Expr_Ptr&& operand)
             : operator_{operator_}, operand{std::move(operand)} {
         type = Type::UNARY_OPERATION;

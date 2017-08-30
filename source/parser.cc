@@ -81,9 +81,40 @@ namespace lynx {
     }
 
     Statement_Ptr Parser::statement() {
+        if(match_token(Token::Type::IF)) {
+            return if_statement();
+        }
+        if(match_token(Token::Type::FOR)) {
+            return for_statement();
+        }
+        if(match_token(Token::Type::WHILE)) {
+            return while_statement();
+        }
+        if(match_token(Token::Type::DO)) {
+            return do_while_statement();
+        }
         auto expr = std::make_unique<Expression>(expression());
         consume(Token::Type::SEMICOLON, "Expected ';' after expression.");
         return expr;
+    }
+
+    Statement_Ptr Parser::if_statement() {
+        auto condition = expression();
+        auto then_branch = block();
+        Statement_Ptr else_branch;
+        if(match_token(Token::Type::ELSE)) {
+            else_branch = std::move(statement());
+        }
+        return std::make_unique<If>(std::move(condition), std::move(then_branch), std::move(else_branch));
+    }
+
+    Statement_Ptr Parser::for_statement() {
+    }
+
+    Statement_Ptr Parser::while_statement() {
+    }
+
+    Statement_Ptr Parser::do_while_statement() {
     }
 
     Expr_Ptr Parser::expression() {
@@ -140,17 +171,23 @@ namespace lynx {
         if(match_token(Token::Type::STRING)) {
             return std::make_unique<String>(token.value);
         }
+        if(match_token(Token::Type::TRUE)) {
+            return std::make_unique<Bool>(true);
+        }
+        if(match_token(Token::Type::FALSE)) {
+            return std::make_unique<Bool>(false);
+        }
         throw Parse_Error{"Not a primary expression", token};
     }
 
-    Block Parser::block() {
-        Block block{};
-        consume(Token::Type::L_BRACE, "");
+    Statement_Ptr Parser::block() {
+        std::vector<Statement_Ptr> statements;
+        consume(Token::Type::L_BRACE, "Every block should start with '{'");
         while(_lexer.peek_token(0).type != Token::Type::R_BRACE && !_lexer.is_at_end()) {
-            block.push_back(declaration());
+            statements.push_back(declaration());
         }
         consume(Token::Type::R_BRACE, "");
-        return block;
+        return std::make_unique<Block>(std::move(statements));
     }
 
     bool Parser::match_token(const Token::Type type) {

@@ -11,9 +11,9 @@ namespace lynx {
 
     struct Value {
         enum class Type {
-            INTEGER, FLOAT, STRING
+            INTEGER, FLOAT, BOOL, STRING
         };
-        using Data = std::variant<long long, long double, std::string>;
+        using Data = std::variant<long long, long double, bool, std::string>;
 
         Value(const Type type, const Data data)
                 : type{type}, data{data} {

@@ -10,6 +10,9 @@ namespace lynx {
             FLOAT,
             STRING,
             IDENTIFIER,
+            // Literals.
+            TRUE,
+            FALSE,
             // Keywords.
             FUNC,
             LET,

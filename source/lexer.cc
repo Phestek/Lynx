@@ -16,9 +16,16 @@ namespace {
 namespace lynx {
 
     const std::map<std::string, Token::Type> Lexer::_KEYWORDS {
-        {"func", Token::Type::FUNC},
-        {"let",  Token::Type::LET},
-        {"var",  Token::Type::VAR},
+        {"func",  Token::Type::FUNC},
+        {"let",   Token::Type::LET},
+        {"var",   Token::Type::VAR},
+        {"if",    Token::Type::IF},
+        {"else",  Token::Type::ELSE},
+        {"for",   Token::Type::FOR},
+        {"while", Token::Type::WHILE},
+        {"do",    Token::Type::DO},
+        {"true",  Token::Type::TRUE},
+        {"false", Token::Type::FALSE},
     };
 
     const std::map<std::string, Token::Type> Lexer::_OPERATORS{

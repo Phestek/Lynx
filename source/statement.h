@@ -12,9 +12,14 @@ namespace lynx {
     struct Statement {
         enum class Type {
             UNDEFINED,
+            BLOCK,
             EXPRESSION,
             FUNCTION_DECLARATION,
             VARIABLE_DECLARATION,
+            IF,
+            FOR,
+            WHILE,
+            DO_WHILE
         };
 
         virtual ~Statement() = default;
@@ -24,7 +29,12 @@ namespace lynx {
     };
     using Statement_Ptr = std::unique_ptr<Statement>;
 
-    using Block = std::vector<Statement_Ptr>;
+    struct Block : Statement {
+        Block(std::vector<Statement_Ptr>&& statements);
+        void accept(Statement_Visitor& visitor) override;
+
+        std::vector<Statement_Ptr> statements;
+    };
 
     struct Expression : Statement {
         Expression(Expr_Ptr&& expression);
@@ -34,11 +44,11 @@ namespace lynx {
     };
 
     struct Function_Declaration : Statement {
-        Function_Declaration(const std::string& name, Block&& body);
+        Function_Declaration(const std::string& name, Statement_Ptr&& body);
         void accept(Statement_Visitor& visitor) override;
 
-        std::string name;
-        Block       body;
+        std::string   name;
+        Statement_Ptr body;
         // TODO: Param list.
     };
 
@@ -54,6 +64,12 @@ namespace lynx {
     };
 
     struct If : Statement {
+        If(Expr_Ptr&& condition, Statement_Ptr&& then_block, Statement_Ptr&& else_block);
+        void accept(Statement_Visitor& visitor) override;
+
+        Expr_Ptr      condition;
+        Statement_Ptr then_block;
+        Statement_Ptr else_block;
     };
 
     struct For : Statement {
@@ -68,9 +84,11 @@ namespace lynx {
     class Statement_Visitor {
     public:
         virtual ~Statement_Visitor() = default;
+        virtual void visit_block(const Block& block) = 0;
         virtual void visit_expression(const Expression& expression) = 0;
         virtual void visit_function_declaration(const Function_Declaration& function_declaration) = 0;
         virtual void visit_variable_declaration(const Variable_Declaration& variable_declaration) = 0;
+        virtual void visit_if(const If& if_stmt) = 0;
     };
 
 }

@@ -14,14 +14,19 @@ namespace lynx {
 
         void interpret();
 
+        void execute(Statement& expression);
+        void execute_block(const Block& block);
         Value evaluate(const Expr_Ptr& expression);
 
+        void visit_block(const Block& block) override;
         void visit_expression(const Expression& expression) override;
         void visit_function_declaration(const Function_Declaration& function_declaration) override;
         void visit_variable_declaration(const Variable_Declaration& variable_declaration) override;
+        void visit_if(const If& if_stmt) override;
         
         Value visit_integer(const Integer& integer) override;
         Value visit_float(const Float& floating) override;
+        Value visit_bool(const Bool& boolean) override;
         Value visit_string(const String& string) override;
         Value visit_unary(const Unary_Operation& unary) override;
         Value visit_binary(const Binary_Operation& binary) override;

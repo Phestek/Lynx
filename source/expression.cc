@@ -20,6 +20,14 @@ namespace lynx {
         return visitor.visit_float(*this);
     }
 
+    Bool::Bool(const bool value)
+            : value{value} {
+    }
+
+    Value Bool::accept(Expression_Visitor& visitor) {
+        return visitor.visit_bool(*this);
+    }
+
     String::String(const std::string& value)
             : value{value} {
         type = Type::STRING;

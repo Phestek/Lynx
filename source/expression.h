@@ -28,6 +28,8 @@ namespace lynx {
     };
     using Expr_Ptr = std::unique_ptr<Expr>;
 
+    // TODO: Replace Integer, Float, Bool and String with single Literal structure.
+
     struct Integer : Expr {
         Integer(const std::string& value);
         Value accept(Expression_Visitor& visitor) override;
@@ -40,6 +42,13 @@ namespace lynx {
         Value accept(Expression_Visitor& visitor) override;
         
         std::string value;
+    };
+
+    struct Bool : Expr {
+        Bool(const bool value);
+        Value accept(Expression_Visitor& visitor) override;
+
+        bool value;
     };
 
     struct String : Expr {
@@ -72,6 +81,7 @@ namespace lynx {
         virtual ~Expression_Visitor() = default;
         virtual Value visit_integer(const Integer& integer) = 0;
         virtual Value visit_float(const Float& floating) = 0;
+        virtual Value visit_bool(const Bool& boolean) = 0;
         virtual Value visit_string(const String& floating) = 0;
         virtual Value visit_unary(const Unary_Operation& unary) = 0;
         virtual Value visit_binary(const Binary_Operation& binary) = 0;

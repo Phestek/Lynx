@@ -10,7 +10,17 @@ namespace lynx {
 
     void Interpreter::interpret() {
         for(const auto& statement : _statements) {
-            statement->accept(*this);
+            execute(*statement);
+        }
+    }
+
+    void Interpreter::execute(Statement& expression) {
+        expression.accept(*this);
+    }
+
+    void Interpreter::execute_block(const Block& block) {
+        for(const auto& statement : block.statements) {
+            execute(*statement);
         }
     }
 
@@ -26,6 +36,20 @@ namespace lynx {
             std::cout << "Expression: " << std::get<long double>(result.data) << "\n";
         } else if(result.type == Value::Type::STRING) {
             std::cout << "Expression: " << std::get<std::string>(result.data) << "\n";
+        } else if(result.type == Value::Type::BOOL) {
+            if(std::get<bool>(result.data)) {
+                std::cout << "Expression: true\n";
+            } else {
+                std::cout << "Expression: false\n";
+            }
+        } else {
+            throw std::runtime_error{"Shouldn't ever reach this point."};
+        }
+    }
+
+    void Interpreter::visit_block(const Block& block) {
+        for(const auto& statement : block.statements) {
+            execute(*statement);
         }
     }
 
@@ -35,16 +59,38 @@ namespace lynx {
     void Interpreter::visit_variable_declaration(const Variable_Declaration& variable_declaration) {
     }
 
+    void Interpreter::visit_if(const If& if_stmt) {
+        bool execute_then_block = false;
+        auto condition_result = evaluate(if_stmt.condition);
+        if(condition_result.type == Value::Type::BOOL && std::get<bool>(condition_result.data)) {
+            execute_then_block = true;
+        } else {
+            // TODO: Throw an error.
+        }
+        if(execute_then_block) {
+            execute_block(dynamic_cast<Block&>(*if_stmt.then_block));
+        } else {
+            if(if_stmt.else_block == nullptr) {
+                return;
+            }
+            execute_block(dynamic_cast<Block&>(*if_stmt.else_block));
+        }
+    }
+
     Value Interpreter::visit_integer(const Integer& integer) {
         return Value{Value::Type::INTEGER, std::stoll(integer.value)};
     }
 
-    Value Interpreter::visit_string(const String& string) {
-        return Value{Value::Type::STRING, string.value};
-    }
-
     Value Interpreter::visit_float(const Float& floating) {
         return Value{Value::Type::FLOAT, std::stold(floating.value)};
+    }
+
+    Value Interpreter::visit_bool(const Bool& boolean) {
+        return Value{Value::Type::BOOL, boolean.value};
+    }
+
+    Value Interpreter::visit_string(const String& string) {
+        return Value{Value::Type::STRING, string.value};
     }
 
     Value Interpreter::visit_unary(const Unary_Operation& unary) {

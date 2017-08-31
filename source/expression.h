@@ -14,9 +14,7 @@ namespace lynx {
     struct Expr {
         enum class Type {
             UNDEFINED,
-            INTEGER,
-            FLOAT,
-            STRING,
+            LITERAL,
             UNARY_OPERATION,
             BINARY_OPERATION
         };
@@ -28,36 +26,12 @@ namespace lynx {
     };
     using Expr_Ptr = std::unique_ptr<Expr>;
 
-    // TODO: Replace Integer, Float, Bool and String with single Literal structure.
-
-    struct Integer : Expr {
-        Integer(const std::string& value);
+    struct Literal : Expr {
+        Literal(const Value& value);
         Value accept(Expression_Visitor& visitor) override;
 
-        std::string value;
+        Value value;
     };
-
-    struct Float : Expr {
-        Float(const std::string& value);
-        Value accept(Expression_Visitor& visitor) override;
-        
-        std::string value;
-    };
-
-    struct Bool : Expr {
-        Bool(const bool value);
-        Value accept(Expression_Visitor& visitor) override;
-
-        bool value;
-    };
-
-    struct String : Expr {
-        String(const std::string& value);
-        Value accept(Expression_Visitor& visitor) override;
-        
-        std::string value;
-    };
-
 
     struct Unary_Operation : Expr {
         Unary_Operation(const Token::Type operator_, Expr_Ptr&& operand);
@@ -79,10 +53,7 @@ namespace lynx {
     class Expression_Visitor {
     public:
         virtual ~Expression_Visitor() = default;
-        virtual Value visit_integer(const Integer& integer) = 0;
-        virtual Value visit_float(const Float& floating) = 0;
-        virtual Value visit_bool(const Bool& boolean) = 0;
-        virtual Value visit_string(const String& floating) = 0;
+        virtual Value visit_literal(const Literal& floating) = 0;
         virtual Value visit_unary(const Unary_Operation& unary) = 0;
         virtual Value visit_binary(const Binary_Operation& binary) = 0;
     };

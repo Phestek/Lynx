@@ -84,20 +84,8 @@ namespace lynx {
         }
     }
 
-    Value Interpreter::visit_integer(const Integer& integer) {
-        return Value{Value::Type::INTEGER, std::stoll(integer.value)};
-    }
-
-    Value Interpreter::visit_float(const Float& floating) {
-        return Value{Value::Type::FLOAT, std::stold(floating.value)};
-    }
-
-    Value Interpreter::visit_bool(const Bool& boolean) {
-        return Value{Value::Type::BOOL, boolean.value};
-    }
-
-    Value Interpreter::visit_string(const String& string) {
-        return Value{Value::Type::STRING, string.value};
+    Value Interpreter::visit_literal(const Literal& literal) {
+        return literal.value;
     }
 
     Value Interpreter::visit_unary(const Unary_Operation& unary) {

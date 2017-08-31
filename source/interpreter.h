@@ -25,10 +25,7 @@ namespace lynx {
         void visit_if(const If& if_stmt) override;
         void visit_print(const Print& print) override;
         
-        Value visit_integer(const Integer& integer) override;
-        Value visit_float(const Float& floating) override;
-        Value visit_bool(const Bool& boolean) override;
-        Value visit_string(const String& string) override;
+        Value visit_literal(const Literal& literal) override;
         Value visit_unary(const Unary_Operation& unary) override;
         Value visit_binary(const Binary_Operation& binary) override;
 

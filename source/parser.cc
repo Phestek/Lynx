@@ -172,19 +172,19 @@ namespace lynx {
     Expr_Ptr Parser::primary() {
         auto token = _lexer.peek_token(0);
         if(match_token(Token::Type::INTEGER)) {
-            return std::make_unique<Integer>(token.value);
+            return std::make_unique<Literal>(Value{Value::Type::INTEGER, std::stoll(token.value)});
         }
         if(match_token(Token::Type::FLOAT)) {
-            return std::make_unique<Float>(token.value);
+            return std::make_unique<Literal>(Value{Value::Type::FLOAT, std::stold(token.value)});
         }
         if(match_token(Token::Type::STRING)) {
-            return std::make_unique<String>(token.value);
+            return std::make_unique<Literal>(Value{Value::Type::STRING,token.value});
         }
         if(match_token(Token::Type::TRUE)) {
-            return std::make_unique<Bool>(true);
+            return std::make_unique<Literal>(Value{Value::Type::BOOL, true});
         }
         if(match_token(Token::Type::FALSE)) {
-            return std::make_unique<Bool>(false);
+            return std::make_unique<Literal>(Value{Value::Type::BOOL, false});
         }
         throw Parse_Error{"Not a primary expression", token};
     }

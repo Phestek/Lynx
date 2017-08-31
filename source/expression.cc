@@ -2,39 +2,13 @@
 
 namespace lynx {
 
-    Integer::Integer(const std::string& value)
+    Literal::Literal(const Value& value)
             : value{value} {
-        type = Type::INTEGER;
+        type = Type::LITERAL;
     }
 
-    Value Integer::accept(Expression_Visitor& visitor) {
-        return visitor.visit_integer(*this);
-    }
-
-    Float::Float(const std::string& value)
-            : value{value} {
-        type = Type::FLOAT;
-    }
-
-    Value Float::accept(Expression_Visitor& visitor) {
-        return visitor.visit_float(*this);
-    }
-
-    Bool::Bool(const bool value)
-            : value{value} {
-    }
-
-    Value Bool::accept(Expression_Visitor& visitor) {
-        return visitor.visit_bool(*this);
-    }
-
-    String::String(const std::string& value)
-            : value{value} {
-        type = Type::STRING;
-    }
-
-    Value String::accept(Expression_Visitor& visitor) {
-        return visitor.visit_string(*this);
+    Value Literal::accept(Expression_Visitor& visitor) {
+        return visitor.visit_literal(*this);
     }
 
     Unary_Operation::Unary_Operation(const Token::Type operator_, Expr_Ptr&& operand)

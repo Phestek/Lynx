@@ -23,6 +23,7 @@ namespace lynx {
         void visit_function_declaration(const Function_Declaration& function_declaration) override;
         void visit_variable_declaration(const Variable_Declaration& variable_declaration) override;
         void visit_if(const If& if_stmt) override;
+        void visit_print(const Print& print) override;
         
         Value visit_integer(const Integer& integer) override;
         Value visit_float(const Float& floating) override;

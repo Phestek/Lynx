@@ -93,6 +93,9 @@ namespace lynx {
         if(match_token(Token::Type::DO)) {
             return do_while_statement();
         }
+        if(match_token(Token::Type::PRINT)) {
+            return print_statement();
+        }
         auto expr = std::make_unique<Expression>(expression());
         consume(Token::Type::SEMICOLON, "Expected ';' after expression.");
         return expr;
@@ -115,6 +118,12 @@ namespace lynx {
     }
 
     Statement_Ptr Parser::do_while_statement() {
+    }
+
+    Statement_Ptr Parser::print_statement() {
+        auto expr = expression();
+        consume(Token::Type::SEMICOLON, "Expected ';' after 'print' statement.");
+        return std::make_unique<Print>(std::move(expr));
     }
 
     Expr_Ptr Parser::expression() {

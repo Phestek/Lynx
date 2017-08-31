@@ -26,6 +26,7 @@ namespace lynx {
         {"do",    Token::Type::DO},
         {"true",  Token::Type::TRUE},
         {"false", Token::Type::FALSE},
+        {"print", Token::Type::PRINT},
     };
 
     const std::map<std::string, Token::Type> Lexer::_OPERATORS{

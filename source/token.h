@@ -22,6 +22,7 @@ namespace lynx {
             FOR,
             WHILE,
             DO,
+            PRINT,
             // Operators.
             L_PAREN,
             R_PAREN,

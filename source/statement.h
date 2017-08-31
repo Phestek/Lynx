@@ -19,7 +19,8 @@ namespace lynx {
             IF,
             FOR,
             WHILE,
-            DO_WHILE
+            DO_WHILE,
+            PRINT
         };
 
         virtual ~Statement() = default;
@@ -81,6 +82,13 @@ namespace lynx {
     struct Do_While : Statement {
     };
 
+    struct Print : Statement {
+        Print(Expr_Ptr&& expression);
+        void accept(Statement_Visitor& visitor) override;
+
+        Expr_Ptr expression;
+    };
+
     class Statement_Visitor {
     public:
         virtual ~Statement_Visitor() = default;
@@ -89,6 +97,7 @@ namespace lynx {
         virtual void visit_function_declaration(const Function_Declaration& function_declaration) = 0;
         virtual void visit_variable_declaration(const Variable_Declaration& variable_declaration) = 0;
         virtual void visit_if(const If& if_stmt) = 0;
+        virtual void visit_print(const Print& print) = 0;
     };
 
 }

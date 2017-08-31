@@ -24,6 +24,7 @@ namespace lynx {
         Statement_Ptr for_statement();
         Statement_Ptr while_statement();
         Statement_Ptr do_while_statement();
+        Statement_Ptr print_statement();
         
         Expr_Ptr expression();
         Expr_Ptr assignment();

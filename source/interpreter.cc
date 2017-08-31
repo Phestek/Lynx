@@ -30,21 +30,6 @@ namespace lynx {
 
     void Interpreter::visit_expression(const Expression& expression) {
         const auto result = evaluate(expression.expression);
-        if(result.type == Value::Type::INTEGER) {
-            std::cout << "Expression: " << std::get<long long>(result.data) << "\n";
-        } else if(result.type == Value::Type::FLOAT) {
-            std::cout << "Expression: " << std::get<long double>(result.data) << "\n";
-        } else if(result.type == Value::Type::STRING) {
-            std::cout << "Expression: " << std::get<std::string>(result.data) << "\n";
-        } else if(result.type == Value::Type::BOOL) {
-            if(std::get<bool>(result.data)) {
-                std::cout << "Expression: true\n";
-            } else {
-                std::cout << "Expression: false\n";
-            }
-        } else {
-            throw std::runtime_error{"Shouldn't ever reach this point."};
-        }
     }
 
     void Interpreter::visit_block(const Block& block) {
@@ -74,6 +59,28 @@ namespace lynx {
                 return;
             }
             execute_block(dynamic_cast<Block&>(*if_stmt.else_block));
+        }
+    }
+
+    void Interpreter::visit_print(const Print& print) {
+        const auto expr = evaluate(print.expression);
+        switch(expr.type) {
+            case Value::Type::INTEGER:
+                std::cout << std::get<long long>(expr.data);
+                break;
+            case Value::Type::FLOAT:
+                std::cout << std::get<long double>(expr.data);
+                break;
+            case Value::Type::BOOL:
+                if(std::get<bool>(expr.data)) {
+                    std::cout << "true";
+                } else {
+                    std::cout << "false";
+                }
+                break;
+            case Value::Type::STRING:
+                std::cout << std::get<std::string>(expr.data);
+                break;
         }
     }
 

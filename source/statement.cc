@@ -7,6 +7,7 @@ namespace lynx {
     }
 
     void Block::accept(Statement_Visitor& visitor) {
+        visitor.visit_block(*this);
     }
 
     Expression::Expression(Expr_Ptr&& expression)
@@ -44,6 +45,14 @@ namespace lynx {
 
     void If::accept(Statement_Visitor& visitor) {
         visitor.visit_if(*this);
+    }
+
+    Print::Print(Expr_Ptr&& expression)
+            : expression{std::move(expression)} {
+    }
+
+    void Print::accept(Statement_Visitor& visitor) {
+        return visitor.visit_print(*this);
     }
 
 }

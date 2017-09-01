@@ -3,7 +3,7 @@
 #include "parser.h"
 
 TEST(Parser, Free_Expression) {
-    std::string input{"20+1"};
+    std::string input{"20+1;"};
     lynx::Lexer lexer{"", std::move(input)};
     lynx::Parser parser{lexer};
     auto result = parser.parse();

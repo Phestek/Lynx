@@ -49,16 +49,17 @@ namespace lynx {
         auto condition_result = evaluate(if_stmt.condition);
         if(condition_result.type == Value::Type::BOOL && std::get<bool>(condition_result.data)) {
             execute_then_block = true;
-        } else {
-            // TODO: Throw an error.
         }
         if(execute_then_block) {
             execute_block(dynamic_cast<Block&>(*if_stmt.then_block));
-        } else {
-            if(if_stmt.else_block == nullptr) {
-                return;
-            }
+            return;
+        }
+        if(if_stmt.else_block->stmt_type == Statement::Type::BLOCK) {
             execute_block(dynamic_cast<Block&>(*if_stmt.else_block));
+        } else if(if_stmt.else_block->stmt_type == Statement::Type::IF) {
+            execute(*if_stmt.else_block);
+        } else {
+            throw std::runtime_error{"Expected block or 'if' after 'else'"};
         }
     }
 

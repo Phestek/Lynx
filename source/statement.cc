@@ -4,6 +4,7 @@ namespace lynx {
 
     Block::Block(std::vector<Statement_Ptr>&& statements)
             : statements{std::move(statements)} {
+        stmt_type = Type::BLOCK;
     }
 
     void Block::accept(Statement_Visitor& visitor) {
@@ -49,6 +50,7 @@ namespace lynx {
 
     Print::Print(Expr_Ptr&& expression)
             : expression{std::move(expression)} {
+        stmt_type = Type::PRINT;
     }
 
     void Print::accept(Statement_Visitor& visitor) {

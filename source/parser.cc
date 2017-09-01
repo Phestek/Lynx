@@ -96,6 +96,9 @@ namespace lynx {
         if(match_token(Token::Type::PRINT)) {
             return print_statement();
         }
+        if(_lexer.peek_token(0).type == Token::Type::L_BRACE) {
+            return block();
+        }
         auto expr = std::make_unique<Expression>(expression());
         consume(Token::Type::SEMICOLON, "Expected ';' after expression.");
         return expr;

@@ -51,11 +51,11 @@ namespace lynx {
             execute_then_block = true;
         }
         if(execute_then_block) {
-            execute_block(dynamic_cast<Block&>(*if_stmt.then_block));
+            execute(*if_stmt.then_block);
             return;
         }
         if(if_stmt.else_block->stmt_type == Statement::Type::BLOCK) {
-            execute_block(dynamic_cast<Block&>(*if_stmt.else_block));
+            execute(*if_stmt.else_block);
         } else if(if_stmt.else_block->stmt_type == Statement::Type::IF) {
             execute(*if_stmt.else_block);
         } else {

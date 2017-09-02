@@ -4,7 +4,6 @@ namespace lynx {
 
     Literal::Literal(const Value& value)
             : value{value} {
-        type = Type::LITERAL;
     }
 
     Value Literal::accept(Expression_Visitor& visitor) {
@@ -13,7 +12,6 @@ namespace lynx {
 
     Identifier::Identifier(const std::string& name)
             : name{name} {
-        type = Type::IDENTIFIER;
     }
 
     Value Identifier::accept(Expression_Visitor& visitor) {
@@ -22,7 +20,6 @@ namespace lynx {
 
     Unary_Operation::Unary_Operation(const Token::Type operator_, Expr_Ptr&& operand)
             : operator_{operator_}, operand{std::move(operand)} {
-        type = Type::UNARY_OPERATION;
     }
 
     Value Unary_Operation::accept(Expression_Visitor& visitor) {
@@ -31,7 +28,6 @@ namespace lynx {
 
     Binary_Operation::Binary_Operation(Expr_Ptr&& left, const Token::Type operator_, Expr_Ptr&& right)
             : left{std::move(left)}, operator_{operator_}, right{std::move(right)} {
-        type = Type::BINARY_OPERATION;
     }
 
     Value Binary_Operation::accept(Expression_Visitor& visitor) {

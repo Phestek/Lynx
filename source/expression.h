@@ -12,19 +12,8 @@ namespace lynx {
     class Expression_Visitor;
 
     struct Expr {
-        // TODO: Get rid of this enum, it's unnecessary.
-        enum class Type {
-            UNDEFINED,
-            LITERAL,
-            IDENTIFIER,
-            UNARY_OPERATION,
-            BINARY_OPERATION
-        };
-
         virtual ~Expr() = default;
         virtual Value accept(Expression_Visitor& visitor) = 0;
-        
-        Type type = Type::UNDEFINED;
     };
     using Expr_Ptr = std::unique_ptr<Expr>;
 

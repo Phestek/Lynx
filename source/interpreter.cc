@@ -42,6 +42,7 @@ namespace lynx {
     }
 
     void Interpreter::visit_variable_declaration(const Variable_Declaration& variable_declaration) {
+        _environment.define(variable_declaration.identifier, evaluate(variable_declaration.initializer));
     }
 
     void Interpreter::visit_if(const If& if_stmt) {
@@ -54,12 +55,13 @@ namespace lynx {
             execute(*if_stmt.then_block);
             return;
         }
-        if(if_stmt.else_block->stmt_type == Statement::Type::BLOCK) {
-            execute(*if_stmt.else_block);
-        } else if(if_stmt.else_block->stmt_type == Statement::Type::IF) {
-            execute(*if_stmt.else_block);
-        } else {
-            throw std::runtime_error{"Expected block or 'if' after 'else'"};
+        switch(if_stmt.else_block->stmt_type) {
+            case Statement::Type::BLOCK:
+            case Statement::Type::IF:
+                execute(*if_stmt.else_block);
+                break;
+            default:
+                throw std::runtime_error{"Expected block or 'if' after 'else'"};
         }
     }
 
@@ -87,6 +89,10 @@ namespace lynx {
 
     Value Interpreter::visit_literal(const Literal& literal) {
         return literal.value;
+    }
+
+    Value Interpreter::visit_identifier(const Identifier& identifier) {
+        return _environment.get(identifier.name);
     }
 
     Value Interpreter::visit_unary(const Unary_Operation& unary) {

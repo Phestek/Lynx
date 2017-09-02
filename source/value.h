@@ -18,10 +18,12 @@ namespace lynx {
         Value(const Type type, const Data data)
                 : type{type}, data{data} {
         }
-
+        
         Type type;
         Data data;
     };
+
+    static_assert(std::is_copy_constructible<Value>());
 
     class Incompatible_Value_Types : public std::exception {
     public:

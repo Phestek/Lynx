@@ -189,6 +189,9 @@ namespace lynx {
         if(match_token(Token::Type::FALSE)) {
             return std::make_unique<Literal>(Value{Value::Type::BOOL, false});
         }
+        if(match_token(Token::Type::IDENTIFIER)) {
+            return std::make_unique<Identifier>(token.value);
+        }
         throw Parse_Error{"Not a primary expression", token};
     }
 

@@ -12,9 +12,11 @@ namespace lynx {
     class Expression_Visitor;
 
     struct Expr {
+        // TODO: Get rid of this enum, it's unnecessary.
         enum class Type {
             UNDEFINED,
             LITERAL,
+            IDENTIFIER,
             UNARY_OPERATION,
             BINARY_OPERATION
         };
@@ -31,6 +33,13 @@ namespace lynx {
         Value accept(Expression_Visitor& visitor) override;
 
         Value value;
+    };
+
+    struct Identifier : Expr {
+        Identifier(const std::string& value);
+        Value accept(Expression_Visitor& visitor) override;
+
+        std::string name;
     };
 
     struct Unary_Operation : Expr {
@@ -54,6 +63,7 @@ namespace lynx {
     public:
         virtual ~Expression_Visitor() = default;
         virtual Value visit_literal(const Literal& floating) = 0;
+        virtual Value visit_identifier(const Identifier& identifier) = 0;
         virtual Value visit_unary(const Unary_Operation& unary) = 0;
         virtual Value visit_binary(const Binary_Operation& binary) = 0;
     };

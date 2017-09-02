@@ -18,14 +18,14 @@ namespace lynx {
         Statement_Ptr declaration();
         Statement_Ptr function_declaration();
         Statement_Ptr variable_declaration(const bool is_constant);
-        
+
         Statement_Ptr statement();
         Statement_Ptr if_statement();
         Statement_Ptr for_statement();
         Statement_Ptr while_statement();
         Statement_Ptr do_while_statement();
         Statement_Ptr print_statement();
-        
+
         Expr_Ptr expression();
         Expr_Ptr assignment();
         Expr_Ptr factor();

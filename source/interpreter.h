@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "environment.h"
 #include "statement.h"
 
 namespace lynx {
@@ -26,11 +27,14 @@ namespace lynx {
         void visit_print(const Print& print) override;
         
         Value visit_literal(const Literal& literal) override;
+        Value visit_identifier(const Identifier& identifier) override;
         Value visit_unary(const Unary_Operation& unary) override;
         Value visit_binary(const Binary_Operation& binary) override;
 
     private:
         const std::vector<Statement_Ptr>& _statements;
+
+        Environment _environment;
     };
 
 }

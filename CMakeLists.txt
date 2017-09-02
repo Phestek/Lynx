@@ -7,6 +7,8 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -DLYNX_DEBUG=1 -g")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -DNDEBUG -DLYNX_DEBUG=0 -O3")
 
 set(SOURCES
+        source/environment.cc
+        source/environment.h
         source/expression.h
         source/expression.cc
         source/interpreter.cc

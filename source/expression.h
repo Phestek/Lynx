@@ -25,26 +25,26 @@ namespace lynx {
     };
 
     struct Identifier : Expr {
-        Identifier(const std::string& value);
+        Identifier(const Token value);
         Value accept(Expression_Visitor& visitor) override;
 
-        std::string name;
+        Token name;
     };
 
     struct Unary_Operation : Expr {
-        Unary_Operation(const Token::Type operator_, Expr_Ptr&& operand);
+        Unary_Operation(const Token operator_, Expr_Ptr&& operand);
         Value accept(Expression_Visitor& visitor) override;
         
-        Token::Type operator_;
+        Token       operator_;
         Expr_Ptr    operand;
     };
 
     struct Binary_Operation : Expr {
-        Binary_Operation(Expr_Ptr&& left, const Token::Type operator_, Expr_Ptr&& right);
+        Binary_Operation(Expr_Ptr&& left, const Token operator_, Expr_Ptr&& right);
         Value accept(Expression_Visitor& visitor) override;
         
         Expr_Ptr    left;
-        Token::Type operator_;
+        Token       operator_;
         Expr_Ptr    right;
     };
 

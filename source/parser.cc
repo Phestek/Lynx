@@ -136,7 +136,7 @@ namespace lynx {
     Expr_Ptr Parser::assignment() {
         auto left = factor();
         if(match_token(Token::Type::EQUALS)) {
-            auto operator_ = _lexer.peek_token(-1).type;
+            auto operator_ = _lexer.peek_token(-1);
             auto right = factor();
             return std::make_unique<Binary_Operation>(std::move(left), operator_, std::move(right));
         }
@@ -146,7 +146,7 @@ namespace lynx {
     Expr_Ptr Parser::factor() {
         auto left = term();
         while(match_token(Token::Type::STAR) || match_token(Token::Type::SLASH)) {
-            auto operator_ = _lexer.peek_token(-1).type;
+            auto operator_ = _lexer.peek_token(-1);
             auto right = factor();
             return std::make_unique<Binary_Operation>(std::move(left), operator_, std::move(right));
         }
@@ -156,7 +156,7 @@ namespace lynx {
     Expr_Ptr Parser::term() {
         auto left = unary();
         while(match_token(Token::Type::PLUS) || match_token(Token::Type::MINUS)) {
-            auto operator_ = _lexer.peek_token(-1).type;
+            auto operator_ = _lexer.peek_token(-1);
             auto right = factor();
             return std::make_unique<Binary_Operation>(std::move(left), operator_, std::move(right));
         }
@@ -165,7 +165,7 @@ namespace lynx {
 
     Expr_Ptr Parser::unary() {
         while(match_token(Token::Type::PLUS) || match_token(Token::Type::MINUS)) {
-            auto operator_ = _lexer.peek_token(-1).type;
+            auto operator_ = _lexer.peek_token(-1);
             auto operand = factor();
             return std::make_unique<Unary_Operation>(operator_, std::move(operand));
         }
@@ -190,7 +190,7 @@ namespace lynx {
             return std::make_unique<Literal>(Value{Value::Type::BOOL, false});
         }
         if(match_token(Token::Type::IDENTIFIER)) {
-            return std::make_unique<Identifier>(token.value);
+            return std::make_unique<Identifier>(token);
         }
         throw Parse_Error{"Not a primary expression", token};
     }

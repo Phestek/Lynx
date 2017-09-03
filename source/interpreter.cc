@@ -92,12 +92,12 @@ namespace lynx {
     }
 
     Value Interpreter::visit_identifier(const Identifier& identifier) {
-        return _environment.get(identifier.name);
+        return _environment.get(identifier.name.value);
     }
 
     Value Interpreter::visit_unary(const Unary_Operation& unary) {
         const auto operand = evaluate(unary.operand);
-        if(unary.operator_ == Token::Type::MINUS) {
+        if(unary.operator_.type == Token::Type::MINUS) {
             if(operand.type == Value::Type::INTEGER) {
                 return Value{Value::Type::INTEGER, -std::get<long long>(operand.data)};
             }
@@ -113,16 +113,16 @@ namespace lynx {
         const auto left = evaluate(binary.left);
         const auto right = evaluate(binary.right);
         try {
-            if(binary.operator_ == Token::Type::PLUS) {
+            if(binary.operator_.type == Token::Type::PLUS) {
                 return left + right;
             }
-            if(binary.operator_ == Token::Type::MINUS) {
+            if(binary.operator_.type == Token::Type::MINUS) {
                 return left - right;
             }
-            if(binary.operator_ == Token::Type::STAR) {
+            if(binary.operator_.type == Token::Type::STAR) {
                 return left * right;
             }
-            if(binary.operator_ == Token::Type::SLASH) {
+            if(binary.operator_.type == Token::Type::SLASH) {
                 return left / right;
             }
         } catch(const Incompatible_Value_Types& e) {

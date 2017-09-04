@@ -43,6 +43,31 @@ namespace lynx {
         visitor.visit_if(*this);
     }
 
+    For::For(Expr_Ptr&& init_statement, Expr_Ptr&& condition, Expr_Ptr&& iteration_expression, Statement_Ptr&& block)
+            : init_statement{std::move(init_statement)}, condition{std::move(condition)},
+              iteration_expression{std::move(iteration_expression)}, block{std::move(block)} {
+    }
+
+    void For::accept(Statement_Visitor& visitor) {
+        visitor.visit_for(*this);
+    }
+
+    While::While(Expr_Ptr&& condition, Statement_Ptr&& block)
+            : condition{std::move(condition)}, block{std::move(block)} {
+    }
+
+    void While::accept(Statement_Visitor& visitor) {
+        visitor.visit_while(*this);
+    }
+
+    Do_While::Do_While(Expr_Ptr&& condition, Statement_Ptr&& block)
+            : condition{std::move(condition)}, block{std::move(block)} {
+    }
+
+    void Do_While::accept(Statement_Visitor& visitor) {
+        visitor.visit_do_while(*this);
+    }
+
     Print::Print(Expr_Ptr&& expression)
             : expression{std::move(expression)} {
     }

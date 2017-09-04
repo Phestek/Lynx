@@ -69,6 +69,15 @@ namespace lynx {
         throw std::runtime_error{"Expected 'if' or block after 'else'"};
     }
 
+    void Interpreter::visit_for(const For& for_stmt) {
+    }
+
+    void Interpreter::visit_while(const While& while_stmt) {
+    }
+
+    void Interpreter::visit_do_while(const Do_While& do_while) {
+    }
+
     void Interpreter::visit_print(const Print& print) {
         const auto expr = evaluate(print.expression);
         switch(expr.type) {

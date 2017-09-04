@@ -115,12 +115,27 @@ namespace lynx {
     }
 
     Statement_Ptr Parser::for_statement() {
+        auto init_statement = expression();
+        consume(Token::Type::SEMICOLON, "");
+        auto condition = expression();
+        consume(Token::Type::SEMICOLON, "");
+        auto iteration_expression = expression();
+        auto body = block();
+        return std::make_unique<For>(std::move(init_statement), std::move(condition), std::move(iteration_expression),
+                std::move(body));
     }
 
     Statement_Ptr Parser::while_statement() {
+        auto condition = expression();
+        auto body = block();
+        return std::make_unique<While>(std::move(condition), std::move(body));
     }
 
     Statement_Ptr Parser::do_while_statement() {
+        auto body = block();
+        consume(Token::Type::WHILE, "Expected 'while' after 'do' block");
+        auto condition = expression();
+        return std::make_unique<Do_While>(std::move(condition), std::move(body));
     }
 
     Statement_Ptr Parser::print_statement() {
@@ -201,7 +216,7 @@ namespace lynx {
         while(_lexer.peek_token(0).type != Token::Type::R_BRACE && !_lexer.is_at_end()) {
             statements.push_back(declaration());
         }
-        consume(Token::Type::R_BRACE, "");
+        consume(Token::Type::R_BRACE, "No matching '}'");
         return std::make_unique<Block>(std::move(statements));
     }
 

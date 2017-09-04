@@ -59,12 +59,29 @@ namespace lynx {
     };
 
     struct For : Statement {
+        For(Expr_Ptr&& init_statement, Expr_Ptr&& condition, Expr_Ptr&& iteration_expression, Statement_Ptr&& block);
+        void accept(Statement_Visitor& visitor) override;
+
+        Expr_Ptr      init_statement;
+        Expr_Ptr      condition;
+        Expr_Ptr      iteration_expression;
+        Statement_Ptr block;
     };
 
     struct While : Statement {
+        While(Expr_Ptr&& condition, Statement_Ptr&& block);
+        void accept(Statement_Visitor& visitor) override;
+
+        Expr_Ptr      condition;
+        Statement_Ptr block;
     };
 
     struct Do_While : Statement {
+        Do_While(Expr_Ptr&& condition, Statement_Ptr&& block);
+        void accept(Statement_Visitor& visitor) override;
+
+        Expr_Ptr      condition;
+        Statement_Ptr block;
     };
 
     struct Print : Statement {
@@ -82,6 +99,9 @@ namespace lynx {
         virtual void visit_function_declaration(const Function_Declaration& function_declaration) = 0;
         virtual void visit_variable_declaration(const Variable_Declaration& variable_declaration) = 0;
         virtual void visit_if(const If& if_stmt) = 0;
+        virtual void visit_for(const For& for_stmt) = 0;
+        virtual void visit_while(const While& while_stmt) = 0;
+        virtual void visit_do_while(const Do_While& do_while) = 0;
         virtual void visit_print(const Print& print) = 0;
     };
 

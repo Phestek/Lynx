@@ -24,6 +24,9 @@ namespace lynx {
         void visit_function_declaration(const Function_Declaration& function_declaration) override;
         void visit_variable_declaration(const Variable_Declaration& variable_declaration) override;
         void visit_if(const If& if_stmt) override;
+        void visit_for(const For& for_stmt) override;
+        void visit_while(const While& while_stmt) override;
+        void visit_do_while(const Do_While& do_while) override;
         void visit_print(const Print& print) override;
         
         Value visit_literal(const Literal& literal) override;

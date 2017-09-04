@@ -9,7 +9,6 @@ TEST(Parser, Free_Expression) {
     auto result = parser.parse();
     ASSERT_EQ(lexer.errors_reported(), 0);
     ASSERT_EQ(parser.errors_reported(), 0);
-    ASSERT_EQ(result[0]->stmt_type, lynx::Statement::Type::EXPRESSION);
 }
 
 TEST(Parser, Function_Declaration) {
@@ -19,6 +18,5 @@ TEST(Parser, Function_Declaration) {
     auto result = parser.parse();
     ASSERT_EQ(lexer.errors_reported(), 0);
     ASSERT_EQ(parser.errors_reported(), 0);
-    ASSERT_EQ(result[0]->stmt_type, lynx::Statement::Type::FUNCTION_DECLARATION);
 }
 

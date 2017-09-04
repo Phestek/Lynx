@@ -10,23 +10,8 @@ namespace lynx {
     class Statement_Visitor;
 
     struct Statement {
-        enum class Type {
-            UNDEFINED,
-            BLOCK,
-            EXPRESSION,
-            FUNCTION_DECLARATION,
-            VARIABLE_DECLARATION,
-            IF,
-            FOR,
-            WHILE,
-            DO_WHILE,
-            PRINT
-        };
-
         virtual ~Statement() = default;
         virtual void accept(Statement_Visitor& visitor) = 0;
-
-        Type stmt_type = Type::UNDEFINED;
     };
     using Statement_Ptr = std::unique_ptr<Statement>;
 

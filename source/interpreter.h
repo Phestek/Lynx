@@ -13,7 +13,7 @@ namespace lynx {
         Interpreter(const std::vector<Statement_Ptr>& statements);
         ~Interpreter() = default;
 
-        void interpret();
+        bool interpret();
 
         void execute(Statement& expression);
         void execute_block(const Block& block);

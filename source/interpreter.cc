@@ -8,10 +8,16 @@ namespace lynx {
             : _statements{statements} {
     }
 
-    void Interpreter::interpret() {
-        for(const auto& statement : _statements) {
-            execute(*statement);
+    bool Interpreter::interpret() {
+        try {
+            for(const auto& statement : _statements) {
+                execute(*statement);
+            }
+        } catch(const std::runtime_error& e) {
+            std::cout << "Error: " << e.what() << ".\n";
+            return false;
         }
+        return true;
     }
 
     void Interpreter::execute(Statement& expression) {
@@ -126,6 +132,7 @@ namespace lynx {
                 return left / right;
             }
         } catch(const Incompatible_Value_Types& e) {
+            throw std::runtime_error{"Incompatible operands in binary operation"};
         }
         throw std::runtime_error{"Should never reach this point."};
     }

@@ -45,11 +45,13 @@ int main(int argc, char** argv) {
     lynx::Parser parser{lexer};
     auto statements = parser.parse();
     if(auto errors_reported = parser.errors_reported()) {
-        std::cout << "Reported " << errors_reported << " errors. Exitting...\n";
+        std::cout << "Reported " << errors_reported << " errors. Exiting...\n";
         return 3;
     }
     lynx::Interpreter interpreter{statements};
-    interpreter.interpret();
+    if(!interpreter.interpret()) {
+        std::cout << "Error reported. Exiting...\n";
+    }
     return 0;
 }
 

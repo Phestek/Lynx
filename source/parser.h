@@ -28,6 +28,8 @@ namespace lynx {
 
         Expr_Ptr expression();
         Expr_Ptr assignment();
+        Expr_Ptr equality();
+        Expr_Ptr comparison();
         Expr_Ptr factor();
         Expr_Ptr term();
         Expr_Ptr unary();

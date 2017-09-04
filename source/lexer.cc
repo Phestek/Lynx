@@ -30,19 +30,25 @@ namespace lynx {
     };
 
     const std::map<std::string, Token::Type> Lexer::_OPERATORS{
-        {"(", Token::Type::L_PAREN},
-        {")", Token::Type::R_PAREN},
-        {"{", Token::Type::L_BRACE},
-        {"}", Token::Type::R_BRACE},
-        {"[", Token::Type::L_BRACKET},
-        {"]", Token::Type::R_BRACKET},
-        {":", Token::Type::COLON},
-        {";", Token::Type::SEMICOLON},
-        {"=", Token::Type::EQUALS},
-        {"+", Token::Type::PLUS},
-        {"-", Token::Type::MINUS},
-        {"*", Token::Type::STAR},
-        {"/", Token::Type::SLASH},
+        {"(",  Token::Type::L_PAREN},
+        {")",  Token::Type::R_PAREN},
+        {"{",  Token::Type::L_BRACE},
+        {"}",  Token::Type::R_BRACE},
+        {"[",  Token::Type::L_BRACKET},
+        {"]",  Token::Type::R_BRACKET},
+        {":",  Token::Type::COLON},
+        {";",  Token::Type::SEMICOLON},
+        {"=",  Token::Type::EQUALS},
+        {"+",  Token::Type::PLUS},
+        {"-",  Token::Type::MINUS},
+        {"*",  Token::Type::STAR},
+        {"/",  Token::Type::SLASH},
+        {"==", Token::Type::EQUALS_EQUALS},
+        {"!=", Token::Type::BANG_EQUALS},
+        {"<",  Token::Type::LESS},
+        {"<=", Token::Type::LESS_EQUALS},
+        {">",  Token::Type::GREATER},
+        {">=", Token::Type::GREATER_EQUALS},
     };
 
     Lexer::Lexer(const std::string& filename, std::string&& code)

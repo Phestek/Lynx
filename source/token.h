@@ -37,6 +37,12 @@ namespace lynx {
             MINUS,
             STAR,
             SLASH,
+            EQUALS_EQUALS,
+            BANG_EQUALS,
+            LESS,
+            GREATER,
+            LESS_EQUALS,
+            GREATER_EQUALS,
             END_OF_FILE
         };
         Type        type = Token::Type::UNDEFINED;

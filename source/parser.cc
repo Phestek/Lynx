@@ -135,6 +135,7 @@ namespace lynx {
         auto body = block();
         consume(Token::Type::WHILE, "Expected 'while' after 'do' block");
         auto condition = expression();
+        consume(Token::Type::SEMICOLON, "Expected ';' after 'do while' condition");
         return std::make_unique<Do_While>(std::move(condition), std::move(body));
     }
 
@@ -149,8 +150,29 @@ namespace lynx {
     }
 
     Expr_Ptr Parser::assignment() {
-        auto left = factor();
+        auto left = equality();
         if(match_token(Token::Type::EQUALS)) {
+            auto operator_ = _lexer.peek_token(-1);
+            auto right = factor();
+            return std::make_unique<Binary_Operation>(std::move(left), operator_, std::move(right));
+        }
+        return left;
+    }
+
+    Expr_Ptr Parser::equality() {
+        auto left = comparison();
+        if(match_token(Token::Type::EQUALS) || match_token(Token::Type::BANG_EQUALS)) {
+            auto operator_ = _lexer.peek_token(-1);
+            auto right = factor();
+            return std::make_unique<Binary_Operation>(std::move(left), operator_, std::move(right));
+        }
+        return left;
+    }
+
+    Expr_Ptr Parser::comparison() {
+        auto left = factor();
+        if(match_token(Token::Type::LESS) || match_token(Token::Type::GREATER) || match_token(Token::Type::LESS_EQUALS)
+                || match_token(Token::Type::GREATER_EQUALS)) {
             auto operator_ = _lexer.peek_token(-1);
             auto right = factor();
             return std::make_unique<Binary_Operation>(std::move(left), operator_, std::move(right));

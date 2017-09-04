@@ -2,8 +2,6 @@
 
 #include <iostream>
 
-#include "utils/is_downcastable.h"
-
 namespace lynx {
 
     Interpreter::Interpreter(const std::vector<Statement_Ptr>& statements)
@@ -63,11 +61,12 @@ namespace lynx {
             execute(*if_stmt.then_block);
             return;
         }
-        if(!is_downcastable<If>(*if_stmt.else_block)
-                || !is_downcastable<If>(*if_stmt.else_block)) {
-            throw std::runtime_error{"Expected block or 'if' after 'else'"};
+        if(dynamic_cast<Block*>(if_stmt.else_block.get()) != nullptr
+                || dynamic_cast<If*>(if_stmt.else_block.get()) != nullptr) {
+            execute(*if_stmt.else_block);
+            return;
         }
-        execute(*if_stmt.else_block);
+        throw std::runtime_error{"Expected 'if' or block after 'else'"};
     }
 
     void Interpreter::visit_print(const Print& print) {

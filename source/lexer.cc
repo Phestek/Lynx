@@ -138,10 +138,33 @@ namespace lynx {
     }
 
     void Lexer::tokenize_string(char c) {
+        static std::map<char, char> escape_sequences{
+                {'\'', '\''},
+                {'\"', '\"'},
+                {'\?', '\?'},
+                {'\\', '\\'},
+                {'a', '\a'},
+                {'b', '\b'},
+                {'f', '\f'},
+                {'n', '\n'},
+                {'r', '\r'},
+                {'t', '\t'},
+                {'v', '\v'},
+        };
         std::string str{};
         c = get_next_character();
         while(c != '"') {
-            str += c;
+            if(c == '\\') {
+                c = get_next_character();
+                if(auto result = escape_sequences.find(c); result != escape_sequences.cend()) {
+                    str += result->second;
+                } else {
+                    ++_code_pos;
+                    throw Lexer_Error{"Unknown escape sequence '\\" + std::string{c} + "'"};
+                }
+            } else {
+                str += c;
+            }
             c = get_next_character();
         }
         get_next_character();

@@ -37,6 +37,7 @@ namespace lynx {
             MINUS,
             STAR,
             SLASH,
+            BANG,
             EQUALS_EQUALS,
             BANG_EQUALS,
             LESS,

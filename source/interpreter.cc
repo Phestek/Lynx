@@ -54,7 +54,7 @@ namespace lynx {
     void Interpreter::visit_if(const If& if_stmt) {
         bool execute_then_block = false;
         auto condition_result = evaluate(if_stmt.condition);
-        if(condition_result.type == Value::Type::BOOL && std::get<bool>(condition_result.data)) {
+        if(is_truthy(condition_result)) {
             execute_then_block = true;
         }
         if(execute_then_block) {
@@ -119,29 +119,65 @@ namespace lynx {
             }
             // TODO: Something bad should happen.
         }
+        if(unary.operator_.type == Token::Type::BANG) {
+            if(operand.type != Value::Type::BOOL) {
+                throw std::runtime_error{"Unary '!' may only be used on 'bool' types"};
+            }
+            return Value{Value::Type::BOOL, !std::get<bool>(operand.data)};
+        }
         throw std::runtime_error{"Should never reach this point."};
     }
 
     Value Interpreter::visit_binary(const Binary_Operation& binary) {
         const auto left = evaluate(binary.left);
         const auto right = evaluate(binary.right);
-        try {
-            if(binary.operator_.type == Token::Type::PLUS) {
-                return left + right;
-            }
-            if(binary.operator_.type == Token::Type::MINUS) {
-                return left - right;
-            }
-            if(binary.operator_.type == Token::Type::STAR) {
-                return left * right;
-            }
-            if(binary.operator_.type == Token::Type::SLASH) {
-                return left / right;
-            }
-        } catch(const Incompatible_Value_Types& e) {
+        if(left.type != right.type) {
             throw std::runtime_error{"Incompatible operands in binary operation"};
         }
+        if(binary.operator_.type == Token::Type::PLUS) {
+            return left + right;
+        }
+        if(binary.operator_.type == Token::Type::MINUS) {
+            return left - right;
+        }
+        if(binary.operator_.type == Token::Type::STAR) {
+            return left * right;
+        }
+        if(binary.operator_.type == Token::Type::SLASH) {
+            return left / right;
+        }
+        if(binary.operator_.type == Token::Type::EQUALS_EQUALS) {
+            return left == right;
+        }
+        if(binary.operator_.type == Token::Type::BANG_EQUALS) {
+            return left != right;
+        }
+        if(binary.operator_.type == Token::Type::LESS) {
+            return left < right;
+        }
+        if(binary.operator_.type == Token::Type::LESS_EQUALS) {
+            return left <= right;
+        }
+        if(binary.operator_.type == Token::Type::GREATER) {
+            return left > right;
+        }
+        if(binary.operator_.type == Token::Type::GREATER_EQUALS) {
+            return left >= right;
+        }
         throw std::runtime_error{"Should never reach this point."};
+    }
+
+    bool Interpreter::is_truthy(const Value& value) const {
+        if(value.type == Value::Type::INTEGER) {
+            return std::get<long long>(value.data) != 0;
+        }
+        if(value.type == Value::Type::FLOAT) {
+            return std::get<long double>(value.data) != 0.0;
+        }
+        if(value.type == Value::Type::BOOL) {
+            return std::get<bool>(value.data);
+        }
+        throw std::runtime_error{"Only numbers and booleans can be used as condition."};
     }
 
 }

@@ -201,7 +201,7 @@ namespace lynx {
     }
 
     Expr_Ptr Parser::unary() {
-        while(match_token(Token::Type::PLUS) || match_token(Token::Type::MINUS)) {
+        while(match_token(Token::Type::MINUS) || match_token(Token::Type::BANG)) {
             auto operator_ = _lexer.peek_token(-1);
             auto operand = factor();
             return std::make_unique<Unary_Operation>(operator_, std::move(operand));

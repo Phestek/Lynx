@@ -43,6 +43,7 @@ namespace lynx {
         {"-",  Token::Type::MINUS},
         {"*",  Token::Type::STAR},
         {"/",  Token::Type::SLASH},
+        {"!",  Token::Type::BANG},
         {"==", Token::Type::EQUALS_EQUALS},
         {"!=", Token::Type::BANG_EQUALS},
         {"<",  Token::Type::LESS},

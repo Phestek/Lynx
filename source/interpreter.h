@@ -35,6 +35,8 @@ namespace lynx {
         Value visit_binary(const Binary_Operation& binary) override;
 
     private:
+        bool is_truthy(const Value& value) const;
+
         const std::vector<Statement_Ptr>& _statements;
 
         Environment _environment;

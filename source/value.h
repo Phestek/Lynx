@@ -30,6 +30,14 @@ namespace lynx {
         Incompatible_Value_Types() noexcept = default;
     };
 
+    Value operator==(const Value& left, const Value& right);
+    Value operator!=(const Value& left, const Value& right);
+
+    Value operator<(const Value& left, const Value& right);
+    Value operator>(const Value& left, const Value& right);
+    Value operator<=(const Value& left, const Value& right);
+    Value operator>=(const Value& left, const Value& right);
+
     Value operator+(const Value& left, const Value& right);
     Value operator-(const Value& left, const Value& right);
     Value operator*(const Value& left, const Value& right);

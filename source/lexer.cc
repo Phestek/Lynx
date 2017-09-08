@@ -199,7 +199,7 @@ namespace lynx {
             identifier += c;
             c = get_next_character();
         }
-        if(auto keyword = is_keyword(identifier); keyword != nullptr) {
+        if(auto keyword = is_keyword(identifier); keyword.has_value()) {
             _tokens.push_back(Token{*keyword, "", _filename, _line, _code_pos - _last_newline});
         } else {
             _tokens.push_back(Token{Token::Type::IDENTIFIER, identifier, _filename, _line, _code_pos - _last_newline});
@@ -219,7 +219,7 @@ namespace lynx {
             }
         }
         while(length > 0) {
-            if(auto result = is_valid_opearator(operator_); result != nullptr) {
+            if(auto result = is_valid_opearator(operator_); result.has_value()) {
                 _code_pos += length;
                 _tokens.push_back(Token{*result, "", _filename, _line, _code_pos - _last_newline});
                 return;
@@ -258,20 +258,20 @@ namespace lynx {
         return std::ispunct(c);
     }
 
-    const Token::Type* Lexer::is_keyword(const std::string& identifier) const {
+    std::optional<Token::Type> Lexer::is_keyword(const std::string& identifier) const {
         auto result = _KEYWORDS.find(identifier);
         if(result != _KEYWORDS.cend()) {
-            return &result->second;
+            return result->second;
         }
-        return nullptr;
+        return {};
     }
 
-    const Token::Type* Lexer::is_valid_opearator(const std::string& operator_) const {
+    std::optional<Token::Type> Lexer::is_valid_opearator(const std::string& operator_) const {
         auto result = _OPERATORS.find(operator_);
         if(result != _OPERATORS.cend()) {
-            return &result->second;
+            return result->second;
         }
-        return nullptr;
+        return {};
     }
 
 }

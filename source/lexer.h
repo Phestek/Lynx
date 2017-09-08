@@ -35,8 +35,8 @@ namespace lynx {
         bool is_identifier_character(const char c) const noexcept;
         bool is_operator_character(const char c) const noexcept;
 
-        const Token::Type* is_keyword(const std::string& identifier) const;
-        const Token::Type* is_valid_opearator(const std::string& operator_) const;
+        std::optional<Token::Type> is_keyword(const std::string& identifier) const;
+        std::optional<Token::Type> is_valid_opearator(const std::string& operator_) const;
 
         std::string _code;
         std::size_t _code_pos{};
